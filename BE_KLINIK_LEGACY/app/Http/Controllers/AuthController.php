@@ -130,24 +130,32 @@ class AuthController extends Controller
 
     public function register(Request $request)
     {
-     $request->validate([
-            "nama" => "required",
-            "email" => "required:email|unique:users",
-            "password" => "required|min:6",
-            "role" => "in:CRM,PERAWAT,DOKTER,KASIR"
-     ]);
+        try {
+                $request->validate([
+               "nama" => "required",
+               "email" => "required:email|unique:users",
+               "password" => "required|min:6",
+               "role" => "in:CRM,PERAWAT,DOKTER,KASIR"
+             ]);
 
 
-    $user= User::create([
-        "nama" => $request->nama,
-        "email" => $request->email,
-        "password" => bcrypt($request->password),
-        "role" => $request->role ?? 'CRM'
-    ]);
-    return response()->json([
-        "message" => "User registered successfully",
-        "user" => $user
-    ], 201);
+           $user= User::create([
+               "nama" => $request->nama,
+               "email" => $request->email,
+               "password" => bcrypt($request->password),
+               "role" => $request->role ?? 'CRM'
+           ]);
+           return response()->json([
+               "message" => "User registered successfully",
+               "user" => $user
+           ], 201);
+        
+           } catch (\Illuminate\Validation\ValidationException $e) {
+                   return response()->json([
+                "message" => "Validation error",
+                "errors" => $e->errors()
+            ], 422);
+        }
 
    }  
 

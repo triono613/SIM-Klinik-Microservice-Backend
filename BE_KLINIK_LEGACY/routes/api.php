@@ -7,8 +7,8 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PasienController;
 
 
-Route::post('/register',[AuthController::class, 'register']);
-Route::post('/login',[AuthController::class, 'login']);
+Route::post('/register',[App\Http\Controllers\AuthController::class, 'register']);
+Route::post('/login',[App\Http\Controllers\AuthController::class, 'login']);
 
 
 Route::middleware(['auth:sanctum'])->group(function() {
